@@ -34,3 +34,37 @@ with open('app.log', 'a') as file:
 print("\n--- Content of app.log: ---")
 with open('app.log', 'r') as file:
     print(file.read())
+
+
+# try - except method on files
+
+def safe_read(filepath):
+    """
+    Reads content from a file and handles common errors.
+    Returns the file content or an error message string.
+    :param filepath:
+    :return:
+    """
+    try:
+        with open(filepath, 'r') as file:
+            return file.read()
+    except FileNotFoundError:
+        return f"Error: The file '{filepath}' was not found."
+    except PermissionError:
+        return f"Error: You don't have permission to read '{filepath}'."
+    except Exception as e:
+        # A general catch-all for any other unexpected errors
+        return f"An unexpected error occurred: {e}"
+
+# --- Testing our safe_read function ---
+
+# 1. Test with a file that exists
+print("\n--- Testing safe_read with existing file: ---")
+content = safe_read('greetings.txt')
+print(content)
+
+# 2: Test with a file that does not exist
+
+print("\n--- Testing safe_read with non-existing file: ---")
+content = safe_read('ghost_file.txt')
+print(content)
